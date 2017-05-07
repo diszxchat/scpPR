@@ -7722,7 +7722,7 @@ End Function
 
 Function LoadEntities()
 
-	;If IS_3DMENU_ENABLED Then DeInit3DMenu()
+	If IS_3DMENU_ENABLED Then DeInit3DMenu()
 
 	CatchErrors("Uncaught (LoadEntities)")
 	DrawLoading(0)
@@ -8754,7 +8754,7 @@ Function NullGame()
 	
 	CatchErrors("NullGame")
 	
-	;If IS_3DMENU_ENABLED Then Init3DMenu()	
+	If IS_3DMENU_ENABLED Then Init3DMenu()	
 	
 End Function
 
