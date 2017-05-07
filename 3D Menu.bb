@@ -221,9 +221,9 @@ Function Update3DMenu()
 	If MainMenuTab=0 Then
 		MenuDark=Max(MenuDark-FPSfactor*0.05,0.0)
 	ElseIf MainMenuTab=5 Then
-		MenuDark=Min(MenuDark+FPSfactor*0.05,1.0)
-		EntityAlpha MenuSprite[1],0
-		EntityAlpha MenuSprite[0],1.0-MenuDark
+		MenuDark=Min(MenuDark+FPSfactor*0.05,0.7)
+		;EntityAlpha MenuSprite[1],0
+		;EntityAlpha MenuSprite[0],1.0-MenuDark
 	Else
 		MenuDark=Min(MenuDark+FPSfactor*0.05,0.7)
 	EndIf
@@ -250,20 +250,20 @@ Function Update3DMenu()
 				If MenuState2 > 520 And MenuState2 - FPSfactor <= 520 Then BlinkTimer = 0
 				If MenuState2 < 2000 Then
 					If MenuSoundChn = 0 Then
-						MenuSoundChn = PlaySound(AlarmSFX(0))
+						MenuSoundChn = PlaySound_Strict(AlarmSFX(0))
 					Else
 						If Not ChannelPlaying(MenuSoundChn) Then MenuSoundChn = PlaySound(AlarmSFX(0))
 					End If
-					If Rand(600) = 1 Then tempChn%=PlaySound(IntroSFX(Rand(7, 9)))
-					If Rand(400) = 1 Then tempChn%=PlaySound(IntroSFX(Rand(13, 14)))
+					If Rand(600) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(7, 9)))
+					If Rand(400) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(13, 14)))
 				Else
-					If Rand(1200) = 1 Then tempChn%=PlaySound(IntroSFX(Rand(7, 9)))
-					If Rand(800) = 1 Then tempChn%=PlaySound(IntroSFX(Rand(13, 14)))
+					If Rand(1200) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(7, 9)))
+					If Rand(800) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(13, 14)))
 				EndIf
 				
-				If MenuState2 > 900 And MenuState2 - FPSfactor <= 900 Then MenuSoundChn2 = PlaySound(AlarmSFX(1))
-				If MenuState2 > 2000 And MenuState2 - FPSfactor <= 2000 Then tempChn%=PlaySound(IntroSFX(7))
-				If MenuState2 > 3500 And MenuState2 - FPSfactor <= 3500 Then tempChn%=PlaySound(IntroSFX(7))
+				If MenuState2 > 900 And MenuState2 - FPSfactor <= 900 Then MenuSoundChn2 = PlaySound_Strict(AlarmSFX(1))
+				If MenuState2 > 2000 And MenuState2 - FPSfactor <= 2000 Then tempChn%=PlaySound_Strict(IntroSFX(7))
+				If MenuState2 > 3500 And MenuState2 - FPSfactor <= 3500 Then tempChn%=PlaySound_Strict(IntroSFX(7))
 				
 				If MenuSoundChn<>0 Then ChannelVolume MenuSoundChn,0.1
 				If MenuSoundChn2<>0 Then ChannelVolume MenuSoundChn2,0.1

@@ -6,6 +6,12 @@ MenuBlack = LoadImage_Strict("GFX\menu\menublack.jpg")
 MaskImage MenuBlack, 255,255,0
 Global QuickLoadIcon% = LoadImage_Strict("GFX\menu\QuickLoading.png")
 
+Global IS_3DMENU_ENABLED% = True
+
+Include "3D Menu.bb"
+
+If IS_3DMENU_ENABLED Then Init3DMenu()
+
 ResizeImage(MenuBack, ImageWidth(MenuBack) * MenuScale, ImageHeight(MenuBack) * MenuScale)
 ResizeImage(MenuText, ImageWidth(MenuText) * MenuScale, ImageHeight(MenuText) * MenuScale)
 ResizeImage(Menu173, ImageWidth(Menu173) * MenuScale, ImageHeight(Menu173) * MenuScale)
@@ -56,13 +62,19 @@ Function UpdateMainMenu()
 	Rect 0,0,GraphicWidth,GraphicHeight,True
 	
 	ShowPointer()
-	
-	DrawImage(MenuBack, 0, 0)
-	
-	If (MilliSecs2() Mod MenuBlinkTimer(0)) >= Rand(MenuBlinkDuration(0)) Then
-		DrawImage(Menu173, GraphicWidth - ImageWidth(Menu173), GraphicHeight - ImageHeight(Menu173))
+
+	If Not IS_3DMENU_ENABLED Then ;3D Menu is disabled	
+	    DrawImage(MenuBack, 0, 0)
+		DrawImage(MenuBoH, GraphicWidth - ImageWidth(MenuBoH), GraphicHeight - (1000 * MenuScale))	
+	  	
+	    If (MilliSecs2() Mod MenuBlinkTimer(0)) >= Rand(MenuBlinkDuration(0)) Then
+		    DrawImage(Menu173, GraphicWidth - ImageWidth(Menu173), GraphicHeight - ImageHeight(Menu173))
 	EndIf
 	
+	Else
+		Update3DMenu()
+	EndIf
+		
 	If Rand(300) = 1 Then
 		MenuBlinkTimer(0) = Rand(4000, 8000)
 		MenuBlinkDuration(0) = Rand(200, 500)
@@ -114,28 +126,47 @@ Function UpdateMainMenu()
 	EndIf
 	
 	AASetFont Font2
-	
-	DrawImage(MenuText, GraphicWidth / 2 - ImageWidth(MenuText) / 2, GraphicHeight - 20 * MenuScale - ImageHeight(MenuText))
-	
-	If GraphicWidth > 1240 * MenuScale Then
-		DrawTiledImageRect(MenuWhite, 0, 5, 512, 7 * MenuScale, 985.0 * MenuScale, 407.0 * MenuScale, (GraphicWidth - 1240 * MenuScale) + 300, 7 * MenuScale)
-	EndIf
-	
+
 	If (Not MouseDown1)
 		OnSliderID = 0
+	EndIf	
+	
+	If Not IS_3DMENU_ENABLED Then	
+	  DrawImage(MenuText, GraphicWidth / 2 - ImageWidth(MenuText) / 2, GraphicHeight - 20 * MenuScale - ImageHeight(MenuText))
+	
+	  If GraphicWidth > 1240 * MenuScale Then
+		  DrawTiledImageRect(MenuWhite, 0, 5, 512, 7 * MenuScale, 985.0 * MenuScale, 407.0 * MenuScale, (GraphicWidth - 1240 * MenuScale) + 300, 7 * MenuScale)
+	  EndIf
 	EndIf
 	
 	If MainMenuTab = 0 Then
 		For i% = 0 To 3
 			temp = False
+			hover% = False
+			If Not IS_3DMENU_ENABLED Then			
 			x = 159 * MenuScale
+			Else
+				x = (GraphicWidth/2)-(200 * MenuScale)
+			EndIf			
 			y = (286 + 100 * i) * MenuScale
 			
 			width = 400 * MenuScale
 			height = 70 * MenuScale
-			
-			temp = (MouseHit1 And MouseOn(x, y, width, height))
-			
+
+			;color 255, 255, 255
+			;rect(x, y, width, height)
+			If MouseOn(x, y, width, height) Then
+				;color(30, 30, 30)
+				hover = True			
+				;If MouseHit1 Then temp = True ;-> Alternate
+		    If (MouseHit1 And (Not waitForMouseUp)) Or (MouseUp1 And waitForMouseUp) Then temp = True : PlaySound_Strict(ButtonSFX)
+		         ;clicked = True						
+			Else		
+				;color(0, 0, 0)
+			EndIf
+
+            temp = (MouseHit1 And MouseOn(x, y, width, height))	
+										
 			Local txt$
 			Select i
 				Case 0
@@ -208,9 +239,25 @@ Function UpdateMainMenu()
 						End
 					EndIf
 			End Select
-			
+
+			If Not IS_3DMENU_ENABLED Then			
 			DrawButton(x, y, width, height, txt)
-			
+			Else
+				If hover And (Rand(20)=1) Then
+					Color 100+Rand(50),100,100
+					AAText (GraphicWidth/2)+Rand(-10,10)*MenuScale,y+Rand(-10,10)*MenuScale,txt,True,False
+				EndIf
+				Color 0,0,0
+				AAText (GraphicWidth/2)+3*MenuScale,y+3*MenuScale,txt,True,False
+				If Not hover Then
+					Color 255,255,255
+				Else
+					Color 100,100,150
+				EndIf
+				If temp Then PlaySound(ButtonSFX)
+				AAText (GraphicWidth/2),y,txt,True,False
+			EndIf
+										
 			;rect(x + 4, y + 4, width - 8, height - 8)
 			;color 255, 255, 255	
 			;text(x + width / 2, y + height / 2, Str, True, True)
@@ -223,10 +270,25 @@ Function UpdateMainMenu()
 		
 		width = 400 * MenuScale
 		height = 70 * MenuScale
-		
-		DrawFrame(x, y, width, height)
-		
-		If DrawButton(x + width + 20 * MenuScale, y, 580 * MenuScale - width - 20 * MenuScale, height, "BACK", False) Then 
+
+		Local back%
+		If Not IS_3DMENU_ENABLED Then		
+		    DrawFrame(x, y, width, height)
+			back = DrawButton(x + width + 20 * MenuScale, y, 580 * MenuScale - width - 20 * MenuScale, height, "BACK", False)
+		Else If MainMenuTab<>8
+			Color 0,0,0
+			AAText (GraphicWidth/2)+(420*MenuScale)+(3*MenuScale)-StringWidth("BACK"),y+(3*MenuScale),"BACK",False,False
+			If MouseOn((GraphicWidth/2)+(420*MenuScale)-StringWidth("BACK"), y, StringWidth("BACK"), StringHeight("BACK")) Then
+				Color 100,100,150
+				If MouseHit1 Then back = True : PlaySound_Strict(ButtonSFX)
+			Else
+				Color 255,255,255
+			EndIf
+			
+			AAText (GraphicWidth/2)+(420*MenuScale)-StringWidth("BACK"),y,"BACK",False,False
+		EndIf
+				
+		If back Then 
 			Select MainMenuTab
 				Case 1
 					PutINIValue(OptionFile, "options", "intro enabled", IntroEnabled%)
@@ -250,6 +312,8 @@ Function UpdateMainMenu()
 		Select MainMenuTab
 			Case 1 ; New game
 				;[Block]
+
+				If Not IS_3DMENU_ENABLED Then DrawFrame(x, y, width, height)
 				
 				x = 159 * MenuScale
 				y = 286 * MenuScale
@@ -259,14 +323,22 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				AAText(x + width / 2, y + height / 2, "NEW GAME", True, True)
-				
-				x = 160 * MenuScale
+				If Not IS_3DMENU_ENABLED Then				
+				    AAText(x + width / 2, y + height / 2, "NEW GAME", True, True)
+				Else
+					AAText(GraphicWidth/2, y + height / 2, "NEW GAME", True, True)
+				EndIf
+
+				If Not IS_3DMENU_ENABLED Then								
+				    x = 160 * MenuScale
+				Else
+					x = (GraphicWidth/2)-(290*MenuScale)
+				EndIf				
 				y = y + height + 20 * MenuScale
 				width = 580 * MenuScale
 				height = 330 * MenuScale
 				
-				DrawFrame(x, y, width, height)				
+				;DrawFrame(x, y, width, height)				
 				
 				AASetFont Font1
 				
@@ -397,7 +469,7 @@ Function UpdateMainMenu()
 				width = 580 * MenuScale
 				height = 300 * MenuScale
 				
-				DrawFrame(x, y, width, height)
+				If Not IS_3DMENU_ENABLED Then DrawFrame(x, y, width, height)
 				
 				x = 159 * MenuScale
 				y = 286 * MenuScale
@@ -407,9 +479,17 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
+				If Not IS_3DMENU_ENABLED Then				
 				AAText(x + width / 2, y + height / 2, "LOAD GAME", True, True)
-				
-				x = 160 * MenuScale
+				Else
+					AAText(GraphicWidth/2, y + height / 2, "LOAD GAME", True, True)
+				EndIf
+								
+				If Not IS_3DMENU_ENABLED Then
+					x = 160 * MenuScale
+				Else
+					x = (GraphicWidth/2)-(290*MenuScale)
+				EndIf
 				y = y + height + 20 * MenuScale
 				width = 580 * MenuScale
 				height = 296 * MenuScale
@@ -422,7 +502,7 @@ Function UpdateMainMenu()
 					x = x + 20 * MenuScale
 					y = y + 20 * MenuScale
 					For i% = 1 To SaveGameAmount
-						DrawFrame(x,y,540* MenuScale, 70* MenuScale)
+						If Not IS_3DMENU_ENABLED Then DrawFrame(x,y,540* MenuScale, 70* MenuScale)
 						
 						AAText(x + 20 * MenuScale, y + 10 * MenuScale, SaveGames(i - 1))
 						AAText(x + 20 * MenuScale, y + (10+23) * MenuScale, SaveGameTime(i - 1))
@@ -489,13 +569,22 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				AAText(x + width / 2, y + height / 2, "OPTIONS", True, True)
+				If Not IS_3DMENU_ENABLED Then				
+				    AAText(x + width / 2, y + height / 2, "OPTIONS", True, True)
+				Else				
+					AAText(GraphicWidth/2, y + height / 2, "OPTIONS", True, True)
+				EndIf
+								
+				If Not IS_3DMENU_ENABLED Then
+					x = 160 * MenuScale
+				Else
+					x = (GraphicWidth/2)-(290*MenuScale)
+				EndIf
 				
-				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
 				width = 580 * MenuScale
 				height = 60 * MenuScale
-				DrawFrame(x, y, width, height)
+				If Not IS_3DMENU_ENABLED Then DrawFrame(x, y, width, height)
 				If DrawButton(x+20*MenuScale,y+15*MenuScale,width/5,height/2, "GRAPHICS", False) Then MainMenuTab = 3
 				If DrawButton(x+160*MenuScale,y+15*MenuScale,width/5,height/2, "AUDIO", False) Then MainMenuTab = 5
 				If DrawButton(x+300*MenuScale,y+15*MenuScale,width/5,height/2, "CONTROLS", False) Then MainMenuTab = 6
@@ -933,7 +1022,7 @@ Function UpdateMainMenu()
 				width = 580 * MenuScale
 				height = 350 * MenuScale
 				
-				DrawFrame(x, y, width, height)
+				If Not IS_3DMENU_ENABLED Then DrawFrame(x, y, width, height)
 				
 				x = 159 * MenuScale
 				y = 286 * MenuScale
@@ -943,10 +1032,18 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
+				If Not IS_3DMENU_ENABLED Then				
 				AAText(x + width / 2, y + height / 2, "LOAD MAP", True, True)
-				AASetFont Font1
+				Else
+					AAText(GraphicWidth/2, y + height / 2, "LOAD MAP", True, True)
+				EndIf				
+				;AASetFont Font1
 				
-				x = 160 * MenuScale
+				If Not IS_3DMENU_ENABLED Then
+					x = 160 * MenuScale
+				Else
+					x = (GraphicWidth/2)-(290*MenuScale)
+				EndIf
 				y = y + height + 20 * MenuScale
 				width = 580 * MenuScale
 				height = 350 * MenuScale
@@ -976,7 +1073,10 @@ Function UpdateMainMenu()
 						EndIf
 					Next
 				EndIf
-				
+				;[End Block]				
+			;Case 5 ;quit
+				;[Block]			
+			;	If (Not IS_3DMENU_ENABLED) Or (MenuDark=1.0) Then DeInitExt : End				
 				
 				;[End Block]
 		End Select
