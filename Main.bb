@@ -5912,14 +5912,16 @@ Function DrawGUI()
 							MsgTimer = 70 * 5
 						Case 6
 							Infect=1
-							Msg = "You feel something running down on your vein."							
+							Msg = "You feel something running down in your vein."							
 							MsgTimer = 70*7							
 						Case 7
-							CreateNPC(NPCtype173, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
+						    PositionEntity Curr173\Collider,x,y,z, True
+							;CreateNPC(NPCtype173, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
 						Case 8
-							CreateNPC(NPCtype106, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
+							CreateNPC(NPCtypeOldMan, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
 						Case 9
-							CreateNPC(NPCtype096, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
+						    PositionEntity Curr096\Collider,x,y,z, True
+							;CreateNPC(NPCtype096, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
 						Case 10
 							CreateNPC(NPCtype066, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
 					End Select
@@ -7020,8 +7022,8 @@ Function DrawGUI()
 				EntityAlpha Dark, 0.0
 				
 				IN$ = SelectedItem\itemtemplate\tempname
-				;If IN$ = "paper" Or IN$ = "scp1025" Or IN$ = "badge" Or IN$ = "oldpaper" Then
-				If IN$ = "scp1025" Then
+				;If IN$ = "paper" Or IN$ = "scp1025" Or IN$ = "badge" Or IN$ = "oldpaper" Or IN$ = "scp001" Then
+				If IN$ = "scp1025" Or IN$ = "scp001" Then
 					If SelectedItem\itemtemplate\img<>0 Then FreeImage(SelectedItem\itemtemplate\img)
 					SelectedItem\itemtemplate\img=0
 				EndIf
