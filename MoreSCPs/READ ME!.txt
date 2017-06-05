@@ -1,0 +1,207 @@
+[SCP: Containment Breach More SCPS Mod by BoH, Fan Breach, Contributers (InnocentSam , Juanjpro, Vane Brain, Ikobot, Diszxchat , PXLSHN)]
+
+----------------------------------------------------------------------------------
+I   N   T   R   O   D   U   C   T   I   O   N
+----------------------------------------------------------------------------------
+THANK YOU FOR DOWNLOADING MORE SCPS MOD!
+
+Welcome to More SCPS Mod. A mod where it revives the "DEAD" mod of Box Of Horrors and Fan Breach. 
+The purpose of this mod is to influence SCP CB's Fan or people to download this to raise the popularity of the game.
+
+----------------------------------------------------------------------------------
+I   N   S   T   R   U   C   T   I   O   N   S
+----------------------------------------------------------------------------------
+(Everything is made easy for you)
+
+- Extract the .ZIP
+
+- Execute (Click and Play) SCP - More SCPS.exe
+
+- Enjoy~
+
+----------------------------------------------------------------------------------
+W   H   A   T   '   S      I   N      I   T   ?
+----------------------------------------------------------------------------------
+
+SCPS:
+
+Box Of Horrors:
+
+- SCP-005
+
+- SCP-009
+
+- SCP-020
+
+- SCP-038
+
+- SCP-409
+
+- SCP-1074
+
+Fan Breach (NOT IMPLEMENTED!):
+
+- SCP-001
+
+- SCP-1079
+
+- (Coming Soon)
+
+Main Game:
+
+- SCP-689 (W.I.P)
+
+
+----------------------------------------------------------------------------------
+C   H   A   N   G   E   L   O   G
+----------------------------------------------------------------------------------
+V.3.0 *The start of Fan Breach* (TBA; Not Released):
+
+Fan Breach:
+
+- Added SCP-001 (Sheaf Of Papers)
+
+- Added SCP-1079 (Dr Wondertainment's Bubblebath Bonbons)
+
+- (Coming Soon)
+
+Others:
+
+- Add no effects for certain scps if cloned.
+
+- Added Security Camera at SCP-409's containment chamber and is now viewable at the security room (Faked Room409 camera position will be used on room409)
+
+- Added new model for SCP-1079 (No more placeholder pills)
+
+- Ported the old medibay (Not the Entrance Zone or Heavy Containment)
+
+- Instead of the "Zombie Guard" standing up instantly, the model will delayed itself for the "standing up" animation. Giving time to pick up the First-Aid Kit.
+----------------------------------------------------------------------------------
+V.2.5 *Port to V.1.3.7* (Released on the 2017)
+
+- Ported all BoH Scps to V.1.3.7
+
+- Ported all achievements to V.1.3.7
+
+SCP-005:
+
+- Minor text changes for the key pad
+
+- New texts for the scanner
+
+- Added at Dr. Maynard's Office as a fourth switch-a-roo (In the older versions, it was.)
+
+- Remove the feature of opening Dr. Gears Office
+
+- New room
+
+SCP-038:
+
+- Added chances of cloning items
+
+SCP-1074:
+
+- Remake "Juan Disapprove This!"
+----------------------------------------------------------------------------------
+V.2.1 *Minor Updates* (Released on the 24th of August 2016):
+
+Others:
+
+- Added a command "allachievement" (Unlocks all of the achievement, by inserting 0 to the allachievement)
+
+- Added a hidden secret (Cannot be found in-game)
+
+BugFixes:
+
+- Fixed the 30% chance of cloning items crash (no effects aren't added yet)
+
+----------------------------------------------------------------------------------
+V.2.0 *The completion of BoH* (Released on the 22th of August 2016):
+
+BoH:
+
+- Added SCP-009
+
+- Added SCP-038
+
+- Added SCP-020
+
+Others:
+
+- Added all BoH loading screens
+
+- SCP-1499 has a small chance of cloning like the others (1025, 714, 005, 500, 513, cup, clipboard and 178)
+
+- Added a command "reset372" because I hate that SCP.
+
+- Added texts for SCP-005 if it is inserted into the key card slot.
+
+Achievements:
+
+- Added Achievements (009, 038 and 020)
+
+Items:
+
+- [REDACTED] disapprove this! (find in SCP-1074 containment chamber)
+
+- Added "Cup Of Red Ice"
+
+- Added Binoculars
+
+Rooms:
+
+- Added new room "Medibay"
+
+Bugfixes:
+
+- Fixed MAV if SCP-005 inserted in the hand scanner
+
+- Fixed SCP-1074 for not displaying the correct texture when wearing SCP-714 (Thanks to PXLSHN)
+
+----------------------------------------------------------------------------------
+
+V.1.0 *More SCPS mod first initial release* (Released on the 15th of August 2016):
+
+BoH:
+
+- Added SCP-005
+
+- Added SCP-409
+
+Others:
+
+- Removed and Re-Added back SCP-1074 texts.
+
+- Increases the rate of spawning of SCP-1074
+
+Achievements:
+
+- Added back SCP-1074 Achievement
+
+
+- Added two achievements (SCP-005 and SCP-409)
+
+Items:
+
+- Added new items (Maynard Notes, SCP-409, SCP-005 (have a chance of spawning in Archive Room))
+
+----------------------------------------------------------------------------------
+C   R   E   D   I   T   S
+----------------------------------------------------------------------------------
+* Thanks to, as always, Regalis for making the game.
+
+BugFixes:
+* Thanks PXLSHN for fixing 1074's not displaying correct texture when 714 is worn.
+
+BoH:
+
+* juanjpro for SCP-178, SCP-1074, SCP-038, SCP-009, clipboard mod, random maintenance tunnels, new tesla gates, 3D Menu, and many bugfixes.
+* InnocentSam for SCP-005, SCP-1123, SCP-409, SCP-020, medibay room, achievements menu and half of the night vision goggles.
+* Prune for sound effects/ambiance, assistence in room design, achievement names/descriptions and testing.
+* Niborius (Nib Games) for YouTube videos (if he does one in my mod)
+* Tobop for 409 and binoculars models :)
+* Mirocaine for night vision goggles model :)
+* Skin_ for various graphics and textures.
+
+More SCPS Mod:
+* Diszxchat for combining the scps to the mod.
