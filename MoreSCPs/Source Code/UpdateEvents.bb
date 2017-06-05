@@ -8271,8 +8271,8 @@ Function UpdateEvents()
 							e\room\NPC[0] = CreateNPC(NPCTypeD,EntityX(PlayerRoom\Objects[1],True) + (Cos(tempDir) * 250) * RoomScale,PlayerRoom\y + 2,EntityZ(PlayerRoom\Objects[1],True) + (Sin(tempDir) * 250) * RoomScale)
 							SetAnimTime e\room\NPC[0]\obj, 28.0
 							e\room\NPC[0]\State = 8
-							e\room\NPC[0]\texture = "MoreSCPs\GFX\npcs\classd4.jpg"
-							Local loadTex=LoadTexture("MoreSCPs\GFX\npcs\classd4.jpg")
+							e\room\NPC[0]\texture = "MoreSCPs\GFX\npcs\classd3.jpg"
+							Local loadTex=LoadTexture_Strict("MoreSCPs\GFX\npcs\classd3.jpg")
 							EntityTexture e\room\NPC[0]\obj,loadTex
 							FreeTexture loadTex
 							;FreeTexture loadTex
