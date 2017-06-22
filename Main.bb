@@ -2770,7 +2770,7 @@ Function InitEvents()
 	CreateEvent("room2test1074","room2test1074",0)
 	CreateEvent("room038","room038",0,0)
 	CreateEvent("room009","room009",0,0)
-	;CreateEvent("medibay", "medibay", 0)
+	CreateEvent("oldmedibay", "oldmedibay", 0)
 	CreateEvent("room409", "room409", 0)
 	;CreateEvent("room178", "room178", 0)
 	CreateEvent("room020", "room020", 0)
@@ -5831,7 +5831,8 @@ Function DrawGUI()
 					
 					;[End Block]
 				Case "scp001"
-					;[Block]				
+					;[Block]
+					If SelectedItem\state <> 1 ;<--- ADDED									
 					Select Rand(10)
 						Case 1
 				 	If (Injuries > 0 Or Bloodloss > 0) And Infect > 0 And crystalization > 0 Then
@@ -5901,7 +5902,8 @@ Function DrawGUI()
 							If (Not Wearing714) Then SCP1025state[SelectedItem\state]=Max(1,SCP1025state[SelectedItem\state])
 					
 							DrawImage(SelectedItem\itemtemplate\img, GraphicWidth / 2 - ImageWidth(SelectedItem\itemtemplate\img) / 2, GraphicHeight / 2 - ImageHeight(SelectedItem\itemtemplate\img) / 2)
-							
+					
+								SelectedItem\state = 1 ;<--- ADDED							
 						Case 5
 							Msg = "MAN DATS SUM GOOD ASS SHIT"
 							Injuries = Max(Injuries-0.5, 0)
@@ -5915,19 +5917,31 @@ Function DrawGUI()
 							Msg = "You feel something running down in your vein."							
 							MsgTimer = 70*7							
 						Case 7
-						    PositionEntity Curr173\Collider,x,y,z, True
-							;CreateNPC(NPCtype173, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
+						    ;PositionEntity Curr173\Collider,x,y,z, True
+							CreateNPC(NPCtype173, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
 						Case 8
 							CreateNPC(NPCtypeOldMan, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
 						Case 9
-						    PositionEntity Curr096\Collider,x,y,z, True
-							;CreateNPC(NPCtype096, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
+						    ;PositionEntity Curr096\Collider,x,y,z, True
+							CreateNPC(NPCtype096, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
 						Case 10
 							CreateNPC(NPCtype066, EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider))
 					End Select
 					
-					SelectedItem = Null					
-					;[End Block]					
+						If SelectedItem\state <> 1 ;<--- ADDED
+							SelectedItem = Null
+						EndIf ;<--- ADDED
+					Else ;<--- ADDED
+						DrawImage(SelectedItem\itemtemplate\img, GraphicWidth / 2 - ImageWidth(SelectedItem\itemtemplate\img) / 2, GraphicHeight / 2 - ImageHeight(SelectedItem\itemtemplate\img) / 2) ;<--- ADDED
+					EndIf ;<--- ADDED
+									
+					;[End Block]
+				Case "scp1079"
+					;[Block]				
+					Injuries = Injuries+Rand(7)
+					DeathMSG = "Class D Subject D-9341 was found dead covering with pink bubblegum-scented foam around the body."
+					DeathMSG = DeathMSG+"Toxic reports shows that it was from SCP-1079."
+					;[End Block]															
 				Case "veryfinefirstaid"
 					;[Block]
 					Select Rand(5)
@@ -7000,13 +7014,16 @@ Function DrawGUI()
 			If SelectedItem <> Null Then
 				If SelectedItem\itemtemplate\img <> 0
 					Local IN$ = SelectedItem\itemtemplate\tempname
-					If IN$ = "paper" Or IN$ = "badge" Or IN$ = "oldpaper" Or IN$ = "ticket" Then
+					If IN$ = "paper" Or IN$ = "badge" Or IN$ = "oldpaper" Or IN$ = "ticket" Or IN$ = "scp001" Then
 						For a_it.Items = Each Items
 							If a_it <> SelectedItem
 								Local IN2$ = a_it\itemtemplate\tempname
-								If IN2$ = "paper" Or IN2$ = "badge" Or IN2$ = "oldpaper" Or IN2$ = "ticket" Then
+								If IN2$ = "paper" Or IN2$ = "badge" Or IN2$ = "oldpaper" Or IN2$ = "ticket" Or IN2$ = "scp001" Then
 									If a_it\itemtemplate\img<>0
 										If a_it\itemtemplate\img <> SelectedItem\itemtemplate\img
+											If IN2$ = "scp001" ;<--- ADDED
+												a_it\state = 0 ;<--- ADDED
+											EndIf ;<--- ADDED										
 											FreeImage(a_it\itemtemplate\img)
 											a_it\itemtemplate\img = 0
 										EndIf
@@ -7026,6 +7043,9 @@ Function DrawGUI()
 				If IN$ = "scp1025" Or IN$ = "scp001" Then
 					If SelectedItem\itemtemplate\img<>0 Then FreeImage(SelectedItem\itemtemplate\img)
 					SelectedItem\itemtemplate\img=0
+					If IN$ = "scp001" ;<--- ADDED
+						SelectedItem\state = 0 ;<--- ADDED
+					EndIf ;<--- ADDED					
 				EndIf
 				
 				If SelectedItem\itemtemplate\sound <> 66 Then PlaySound_Strict(PickSFX(SelectedItem\itemtemplate\sound))
@@ -7040,6 +7060,13 @@ Function DrawGUI()
 				If ChannelPlaying(RadioCHN(i)) Then PauseChannel(RadioCHN(i))
 			EndIf
 		Next
+		;[CHANGED]
+		For a_it.Items = Each Items ;<--- ADDED
+			If a_it\itemtemplate\tempname = "scp001" ;<--- ADDED
+				a_it\state = 0 ;<--- ADDED
+			EndIf ;<--- ADDED
+		Next
+		;[End CHANGED]		
 	EndIf 
 	
 	If PrevInvOpen And (Not InvOpen) Then MoveMouse viewport_center_x, viewport_center_y

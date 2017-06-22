@@ -5155,7 +5155,30 @@ Function FillRoom(r.Rooms)
 			EntityParent(it\collider, r\obj)
 				
 			;PositionEntity(d\buttons[1], r\x - 4452.0 * RoomScale, EntityY(d\buttons[1],True), r\z + 1568.0 * RoomScale, True)
-			;[End Block]															
+			;[End Block]
+		Case "oldmedibay"
+			;[Block]
+			r\Objects[4] = CreatePivot(r\obj)
+			PositionEntity(r\Objects[4], r\x - 762.0 * RoomScale, r\y + 0.0 * RoomScale, r\z - 346.0 * RoomScale, True)
+			r\Objects[5] = CreatePivot(r\obj)
+			PositionEntity(r\Objects[5], (EntityX(r\Objects[4],True)+(126.0 * RoomScale)), EntityY(r\Objects[4],True), EntityZ(r\Objects[4],True), True)
+			
+			it = CreateItem("First Aid Kit", "firstaid", r\x - 506.0 * RoomScale, r\y + 192.0 * RoomScale, r\z - 322.0 * RoomScale)
+			EntityParent(it\collider, r\obj)
+				
+			d.Doors = CreateDoor(r\zone, r\x - 264.0 * RoomScale, r\y - 0.0 * RoomScale, r\z + 640.0 * RoomScale, 90, r, False, False, 3)
+			PositionEntity(d\buttons[0], EntityX(d\buttons[0],True), EntityY(d\buttons[0],True), EntityZ(d\buttons[0],True), True)
+			PositionEntity(d\buttons[1], EntityX(d\buttons[1],True), EntityY(d\buttons[1],True), EntityZ(d\buttons[1],True), True)
+			
+			;r\Objects[0]=LoadTexture("ProjectR\GFX\map\medibay_lm1.png",1)
+			;TextureBlend r\Objects[0],2
+			;TextureCoords r\Objects[0],1
+			;r\Objects[1]=LoadTexture("GFX\map\medibay_lm1b.bmp",1)
+			;TextureBlend r\Objects[1],2
+			;TextureCoords r\Objects[1],1
+			r\Objects[2]=GetChild(r\obj,2)
+			r\Objects[3]=-1
+			;[End Block]																		
 	End Select
 	
 	For lt.lighttemplates = Each LightTemplates
@@ -7260,7 +7283,8 @@ Function CreateMap()
 	SetRoom("room2scps2",ROOM2,Floor(0.6*Float(Room2Amount[0])),min_pos,max_pos)
 	SetRoom("room1123",ROOM2,Floor(0.7*Float(Room2Amount[0])),min_pos,max_pos)
 	SetRoom("room2elevator",ROOM2,Floor(0.85*Float(Room2Amount[0])),min_pos,max_pos)
-	SetRoom("room2test1074",ROOM2,Floor(0.95*Float(Room2Amount[0])),min_pos,max_pos)	
+	SetRoom("room2test1074",ROOM2,Floor(0.95*Float(Room2Amount[0])),min_pos,max_pos)
+	SetRoom("oldmedibay",ROOM2,Floor(0.7*Float(Room2Amount[0])),min_pos,max_pos)		
 	
 	
 	MapRoom(ROOM3, Floor(Rnd(0.2,0.8)*Float(Room3Amount[0]))) = "room3storage"

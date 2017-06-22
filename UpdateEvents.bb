@@ -8443,8 +8443,8 @@ Function UpdateEvents()
 					EndIf
 				EndIf	
 				;[End Block]
-			Case "newroom106"
-				;[Block]
+			Case "newroom106" 
+				;[Block] <- W.I.P (Haven't even started yet despite write at the changelog "Added scary event".)
 			If diceroll = 1 Then				
 				If e\EventState = 0 Then
 					If e\room\dist < 5.0 And e\room\dist > 0 Then
@@ -8490,7 +8490,83 @@ Function UpdateEvents()
 					EndIf
 					EndIf
 				EndIf																	
-				;[End Block]																												
+				;[End Block]
+			Case "oldmedibay"
+				;[Block]
+				Local dist5# = EntityDistance(Collider, e\room\Objects[4])
+				If PlayerRoom = e\room Then
+					If e\EventState = 0 Then ;Setup--------------------------------------------------------
+						n.NPCs = CreateNPC(NPCtypeZombie, EntityX(e\room\Objects[5],True),EntityY(e\room\Objects[5],True),EntityZ(e\room\Objects[5],True))
+						PositionEntity n\Collider, EntityX(e\room\Objects[5],True),EntityY(e\room\Objects[5],True)+0.4,EntityZ(e\room\Objects[5],True),True
+						PointEntity n\Collider, e\room\obj
+						e\room\NPC[0]=n
+						TurnEntity n\Collider, 0, -20, 0
+						RotateEntity n\Collider, 0, EntityYaw(n\Collider,True), 0, True
+						;ResetEntity n\Collider
+						de.Decals = CreateDecal(20, EntityX(e\room\Objects[4],True),EntityY(e\room\Objects[4],True)+0.01,EntityZ(e\room\Objects[4],True), 90, Rand(360), 0)
+						de\Size = 0.05 : de\SizeChange = 0.001 : EntityAlpha(de\obj, 0.8) : UpdateDecals() 
+						e\EventState = 1
+					Else
+						If dist5 <1.5 Then
+							If e\EventState3 = 0 Then
+							If e\room\NPC[0]\State = 0							
+								e\room\NPC[0]\State = 1
+								SetNPCFrame(e\room\NPC[0], 155)
+								e\EventState2 = e\EventState2 + FPSfactor								
+								e\EventState3 = 1
+							EndIf
+						EndIf 
+					EndIf
+				EndIf					
+					
+					
+					If e\EventState2>3.0 Then
+						e\EventState2=Max(e\EventState2-FPSfactor,3.0)
+					Else
+						e\EventState2=e\EventState2-FPSfactor
+					EndIf
+				EndIf	
+				;[End Block]
+			Case "oldmedibay2"
+				;[Block] Re-create (Incomplete)
+				;e\EventState: Determines if the player has entered the room or not
+				;	- 0 : Not entered
+				;	- 1 : Has entered
+				;e\EventState2: A timer for the zombie wake up
+	
+				dist5# = EntityDistance(Collider, e\room\Objects[4])				
+				If PlayerRoom = e\room Then	
+					If e\EventState = 0 Then	
+						e\room\NPC[0] = CreateNPC(NPCtypeZombie,EntityX(e\room\Objects[5],True),EntityY(e\room\Objects[5],True),EntityZ(e\room\Objects[5],True))	
+						PositionEntity e\room\NPC[0]\Collider, EntityX(e\room\Objects[5],True),EntityY(e\room\Objects[5],True)+0.4,EntityZ(e\room\Objects[5],True),True
+						PointEntity e\room\NPC[0]\Collider, e\room\obj
+						TurnEntity e\room\NPC[0]\Collider, 0, -20, 0
+						RotateEntity e\room\NPC[0]\Collider, 0, EntityYaw(e\room\NPC[0]\Collider,True), 0, True
+						;ResetEntity e\room\NPC[0]\Collider -> Reset Entity?
+						de.Decals = CreateDecal(20, EntityX(e\room\Objects[4],True),EntityY(e\room\Objects[4],True)+0.01,EntityZ(e\room\Objects[4],True), 90, Rand(360), 0)
+						de\Size = 0.05 : de\SizeChange = 0.001 : EntityAlpha(de\obj, 0.8) : UpdateDecals() 
+						e\EventState = 1
+					Else					
+						If dist5 <1.5
+							If e\EventState2 = 0 Then
+								e\room\NPC[0]\State = 2
+								;e\EventState3 = 1
+							    e\EventState2 = FPSfactor								
+							EndIf
+						EndIf 
+					EndIf
+					
+					If e\EventState2 > 3.0 And e\EventState2 < 70*4 Then
+						;e\EventState2=Max(e\EventState2-FPSfactor,3.0)
+						e\EventState2 = e\EventState2 + FPSfactor
+				ElseIf e\EventState2 >= 70*4
+					If e\room\NPC[0]\State = 0
+						e\room\NPC[0]\State = 2
+						;e\EventState2=e\EventState2-FPSfactor
+					EndIf
+				EndIf
+			EndIf																											
+				;[End Block]																																																				
 		End Select
 		
 		If e<>Null Then

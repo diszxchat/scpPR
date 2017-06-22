@@ -13,22 +13,22 @@ Function Init3DMenu()
 	
 	SeedRnd MilliSecs()
 	
-	Select Lower(GetINIString$("MoreSCPs\BoxOfHorrors\"+OptionFile,"options","game progress"))
-		Case "intro" ;173's chamber before breach (WIP)
-			MenuRoom = "173"
+	Select Lower(GetINIString$("ProjectR\BoxOfHorrors\"+OptionFile,"options","game progress"))
+		;Case "intro" ;'s chamber before breach (WIP)
+		;	MenuRoom = "173"
 		Case "lcz" ;Light Containment Zone rooms
 			Select Rand(4)
+				;Case 1
+				;	MenuRoom = "start"
 				Case 1
-					MenuRoom = "start"
-				Case 2
 					MenuRoom = "lockroom"
-				Case 3
+				Case 2
 					MenuRoom = "roompj"
-				Case 4
+				Case 3
 					MenuRoom = "914"
 			End Select
 		Default ;a specific room
-			MenuRoom = Lower(GetINIString$("MoreSCPs\BoxOfHorrors\"+OptionFile,"options","game progress"))
+			MenuRoom = Lower(GetINIString$("ProjectR\BoxOfHorrors\"+OptionFile,"options","game progress"))
 	End Select
 	
 	If MenuRoom<>"" Then
@@ -52,7 +52,7 @@ Function Init3DMenu()
 	ScaleSprite MenuSprite[0],0.4,0.4/650.0*228.0
 	Menu3DScale = Min(1.0,Float(GraphicsHeight())/Float(GraphicsWidth()))
 	MoveEntity MenuSprite[0],0.0,Menu3DScale*0.8,1.0
-	Local temptex% = LoadTexture("MoreSCPs\BoxOfHorrors\GFX\menu\back3d.jpg",3)
+	Local temptex% = LoadTexture("ProjectR\BoxOfHorrors\GFX\menu\back3d.jpg",3)
 	
 	EntityTexture MenuSprite[0],temptex
 	
@@ -74,37 +74,37 @@ Function Init3DMenu()
 	
 	Select MenuRoom
 			;intro
-		Case "173"
+		;Case "173"
 			;[Block]
-			AmbientLight 200,200,200
-			TranslateEntity MenuCam,-16.0,-1.0,-8.0
-			CameraFogMode MenuCam,0
-			RotateEntity MenuCam,-8.5,-65.0,0
+		;	AmbientLight 200,200,200
+		;	TranslateEntity MenuCam,-16.0,-1.0,-8.0
+		;	CameraFogMode MenuCam,0
+		;	RotateEntity MenuCam,-8.5,-65.0,0
 			;PointEntity MenuCam,MenuMesh
 			;[End Block]
 			;LCZ
-		Case "start"
+		;Case "start"
 			;[Block]
-			AmbientLight Brightness,Brightness,Brightness
-			TranslateEntity MenuCam,-1.6,2.5,-3.6
-			CameraFogRange MenuCam,0.1,6.0
-			CameraFogMode MenuCam,1
-			PointEntity MenuCam,MenuMesh
-			MenuMisc[0]=LoadMesh("GFX\map\doorframe.x")
-			MenuMisc[1]=LoadMesh("GFX\map\door01.x")
-			;MenuMisc[2]=LoadMesh("GFX\map\Button.x")
-			PositionEntity MenuMisc[0],-2.45,1.5,0.0,True
-			PositionEntity MenuMisc[1],-2.45,1.5,0.0,True
-			;PositionEntity MenuMisc[2],-0.6,0.7,-3.9,True
-			ScaleEntity MenuMisc[0],RoomScale,RoomScale,RoomScale
-			ScaleEntity MenuMisc[1],(204.0 * RoomScale) / MeshWidth(MenuMisc[1]), 312.0 * RoomScale / MeshHeight(MenuMisc[1]), 16.0 * RoomScale / MeshDepth(MenuMisc[1])
-			;ScaleEntity MenuMisc[2], 0.03, 0.03, 0.03
-			;RotateEntity MenuMisc[2],0,0,0,True
-			RotateEntity MenuMisc[0],0,270,0,True
-			RotateEntity MenuMisc[1],0,270,0,True
-			EntityParent MenuMisc[0],MenuMesh
-			EntityParent MenuMisc[1],MenuMesh
-			;EntityParent MenuMisc[2],MenuMesh
+		;	AmbientLight Brightness,Brightness,Brightness
+		;	TranslateEntity MenuCam,-1.6,2.5,-3.6
+		;	CameraFogRange MenuCam,0.1,6.0
+		;	CameraFogMode MenuCam,1
+		;	PointEntity MenuCam,MenuMesh
+		;	MenuMisc[0]=LoadMesh("GFX\map\doorframe.x")
+		;	MenuMisc[1]=LoadMesh("GFX\map\door01.x")
+		;	;MenuMisc[2]=LoadMesh("GFX\map\Button.x")
+		;	PositionEntity MenuMisc[0],-2.45,1.5,0.0,True
+		;	PositionEntity MenuMisc[1],-2.45,1.5,0.0,True
+		;	;PositionEntity MenuMisc[2],-0.6,0.7,-3.9,True
+		;	ScaleEntity MenuMisc[0],RoomScale,RoomScale,RoomScale
+		;	ScaleEntity MenuMisc[1],(204.0 * RoomScale) / MeshWidth(MenuMisc[1]), 312.0 * RoomScale / MeshHeight(MenuMisc[1]), 16.0 * RoomScale / MeshDepth(MenuMisc[1])
+		;	;ScaleEntity MenuMisc[2], 0.03, 0.03, 0.03
+		;	;RotateEntity MenuMisc[2],0,0,0,True
+		;	RotateEntity MenuMisc[0],0,270,0,True
+		;	RotateEntity MenuMisc[1],0,270,0,True
+		;	EntityParent MenuMisc[0],MenuMesh
+		;	EntityParent MenuMisc[1],MenuMesh
+		;	;EntityParent MenuMisc[2],MenuMesh
 			;[End Block]
 		Case "lockroom"
 			;[Block]
@@ -231,44 +231,44 @@ Function Update3DMenu()
 	
 	Select MenuRoom
 			;intro
-		Case "173"
+		;Case "173"
 			;[Block]
 			
 			;[End Block]
 			;LCZ
-		Case "start"
-			;[Block]
-			PointEntity MenuCam,MenuMesh
-			
-			RotateEntity MenuCam,EntityPitch(MenuCam,True),EntityYaw(MenuCam,True)+(Sin(MenuState)*15.0),0,True
-			
-			MenuState=WrapAngle(MenuState+FPSfactor*0.3)
-			
-			MenuState2=MenuState2+FPSfactor
-			If MenuState2 > 500 Then
-				
-				If MenuState2 > 520 And MenuState2 - FPSfactor <= 520 Then BlinkTimer = 0
-				If MenuState2 < 2000 Then
-					If MenuSoundChn = 0 Then
-						MenuSoundChn = PlaySound_Strict(AlarmSFX(0))
-					Else
-						If Not ChannelPlaying(MenuSoundChn) Then MenuSoundChn = PlaySound(AlarmSFX(0))
-					End If
-					If Rand(600) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(7, 9)))
-					If Rand(400) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(13, 14)))
-				Else
-					If Rand(1200) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(7, 9)))
-					If Rand(800) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(13, 14)))
-				EndIf
-				
-				If MenuState2 > 900 And MenuState2 - FPSfactor <= 900 Then MenuSoundChn2 = PlaySound_Strict(AlarmSFX(1))
-				If MenuState2 > 2000 And MenuState2 - FPSfactor <= 2000 Then tempChn%=PlaySound_Strict(IntroSFX(7))
-				If MenuState2 > 3500 And MenuState2 - FPSfactor <= 3500 Then tempChn%=PlaySound_Strict(IntroSFX(7))
-				
-				If MenuSoundChn<>0 Then ChannelVolume MenuSoundChn,0.1
-				If MenuSoundChn2<>0 Then ChannelVolume MenuSoundChn2,0.1
-				If tempChn<>0 Then ChannelVolume tempChn,0.1
-			End If
+		;Case "start"
+		;	;[Block]
+		;	PointEntity MenuCam,MenuMesh
+		;	
+		;	RotateEntity MenuCam,EntityPitch(MenuCam,True),EntityYaw(MenuCam,True)+(Sin(MenuState)*15.0),0,True
+		;	
+		;	MenuState=WrapAngle(MenuState+FPSfactor*0.3)
+		;	
+		;	MenuState2=MenuState2+FPSfactor
+		;	If MenuState2 > 500 Then
+		;		
+		;		If MenuState2 > 520 And MenuState2 - FPSfactor <= 520 Then BlinkTimer = 0
+		;		If MenuState2 < 2000 Then
+		;			If MenuSoundChn = 0 Then
+		;				MenuSoundChn = PlaySound_Strict(AlarmSFX(0))
+		;			Else
+		;				If Not ChannelPlaying(MenuSoundChn) Then MenuSoundChn = PlaySound(AlarmSFX(0))
+		;			End If
+		;			If Rand(600) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(7, 9)))
+		;			If Rand(400) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(13, 14)))
+		;		Else
+		;			If Rand(1200) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(7, 9)))
+		;			If Rand(800) = 1 Then tempChn%=PlaySound_Strict(IntroSFX(Rand(13, 14)))
+		;		EndIf
+		;		
+		;		If MenuState2 > 900 And MenuState2 - FPSfactor <= 900 Then MenuSoundChn2 = PlaySound_Strict(AlarmSFX(1))
+		;		If MenuState2 > 2000 And MenuState2 - FPSfactor <= 2000 Then tempChn%=PlaySound_Strict(IntroSFX(7))
+		;		If MenuState2 > 3500 And MenuState2 - FPSfactor <= 3500 Then tempChn%=PlaySound_Strict(IntroSFX(7))
+		;		
+		;		If MenuSoundChn<>0 Then ChannelVolume MenuSoundChn,0.1
+		;		If MenuSoundChn2<>0 Then ChannelVolume MenuSoundChn2,0.1
+		;		If tempChn<>0 Then ChannelVolume tempChn,0.1
+		;	End If
 			;[End Block]
 		Case "lockroom"
 			;[Block]

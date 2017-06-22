@@ -310,8 +310,13 @@ Function InitItemTemplates()
 
 	;Fan Breach Mod
 	it = CreateItemTemplate("SCP-001 Report", "paper", "GFX\items\paper.x", "GFX\items\INVpaper.jpg", "GFX\items\doc001.jpg", 0.003) : it\sound = 0
-	it = CreateItemTemplate("SCP-001", "scp001", "GFX\items\paper.x", "GFX\items\INVpaper.jpg", "", 0.003) : it\sound = 0
-	
+	it = CreateItemTemplate("SCP-001", "scp001", "GFX\items\scp001.x", "GFX\items\INV001.jpg", "", 0.003) : it\sound = 0
+	it = CreateItemTemplate("SCP-1079", "scp1079", "GFX\items\scp1079.b3d", "GFX\items\INV1079.jpg", "", 0.01, "GFX\items\candy2.jpg") : it\sound = 2
+
+   ;Additions SCPs (TESTING)
+
+	;it = CreateItemTemplate("SCP-ERROR", "REDACTED", "GFX\items\00110001 00110010 00110000_(AS#e^_ARCHIVE_NOT_FOUND.bin", "GFX\items\INVCORRUPTED.tex", "", 0.3)
+		
 	;.........
 	
 	;new Items in SCP:CB 1.3 - ENDSHN
